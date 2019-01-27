@@ -1,36 +1,41 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt-nodejs');
-const cors = require('cors');
-const knex = require('knex')
-const config = require('./config.json')
+const express = require("express");
+const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt-nodejs");
+const cors = require("cors");
+const knex = require("knex");
+const morgan = require("morgan");
+const config = require("./config.json");
 
-const register = require('./controllers/register');
-const signin = require('./controllers/signin');
+const register = require("./controllers/register");
+const signin = require("./controllers/signin");
 
 const db = knex({
-  client: 'pg',
-  connection: config.TODOJS_DB,
+  client: "pg",
+  connection: process.env.POSTGRES_URI
 });
+
+const port = process.env.PORT || 3000;
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(morgan("combined"));
 
-app.get('/', (req, res) => {
-  res.send('this is working')
-})
-
-db.select('*').from('users').then(data => {
-  console.log(data)
+app.get("/", (req, res) => {
+  res.send("this is working");
 });
 
-app.get('/', (req, res) => { res.send(database.users) });
-app.post('/signin', (req, res) => { signin.handleSignin(req, res, db, bcrypt) });
-app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) });
+app.get("/", (req, res) => {
+  res.send(database.users);
+});
+app.post("/signin", (req, res) => {
+  signin.handleSignin(req, res, db, bcrypt);
+});
+app.post("/register", (req, res) => {
+  register.handleRegister(req, res, db, bcrypt);
+});
 
-app.listen(3000, () => {
-  console.log('running on port 3000')
-})
-
+app.listen(port, () => {
+  console.log(`running on port ${port}`);
+});

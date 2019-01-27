@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  # Backend API
+  todojs-api:
+    container_name: backend
+    build: ./
+    command: npm start
+    working_dir: /usr/src/todojs-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/usr/src/todojs-api
+        # Postgres
+  postgres:
+    env_file:
+      - ./.env
+    build: ./postgres
+    ports:
+      - "5432:5432"
