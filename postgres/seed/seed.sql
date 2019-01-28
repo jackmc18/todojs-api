@@ -3,4 +3,10 @@ BEGIN TRANSACTION;
 INSERT into users (name, email, joined) values ('john', 'john@gmail.com', '2018-01-01');
 INSERT into login (hash, email) values ('$2a$10$0umiOSkXu//nmGjZxQZr9OEix8a89OjRRLA/PCFZJbOpN/juGpkAu', 'john@gmail.com');
 
+INSERT into boards (owner_id, board_name, created) values ('1', 'hello there', '2018-01-01');
+INSERT into lists (board_id, list_name, created) values ('1', 'todo', '2018-01-01');
+INSERT into lists (board_id, list_name, created) values ('1', 'doing', '2018-01-01');
+INSERT into lists (board_id, list_name, created) values ('1', 'done', '2018-01-01');
+INSERT into cards (list_id, card_content, created) values ('1', 'hello there', '2018-01-01');
+
 COMMIT;
