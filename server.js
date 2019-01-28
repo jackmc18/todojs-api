@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
+const auth = require("./middlewares/authorization");
 
 const db = knex({
   client: "pg",
@@ -33,8 +34,11 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
-app.get("/profile/:id", (req, res) => {
+app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
+});
+app.get("/boardlist/", auth.requireAuth, (req, res) => {
+  console.log("getting boardlist");
 });
 
 app.listen(port, () => {

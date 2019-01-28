@@ -74,5 +74,6 @@ const handleAuth = (req, res, db, bcrypt, jwt) => {
 };
 
 module.exports = {
-  handleAuth: handleAuth
+  handleAuth: handleAuth,
+  redisClient: redisClient
 };
