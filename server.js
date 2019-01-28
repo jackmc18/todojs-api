@@ -37,7 +37,7 @@ app.post("/register", (req, res) => {
 app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
-app.get("/boardlist/", auth.requireAuth, (req, res) => {
+app.get("/boardlist/:id", auth.requireAuth, (req, res) => {
   console.log("getting boardlist");
 });
 
