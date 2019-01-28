@@ -4,10 +4,11 @@ const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
 const knex = require("knex");
 const morgan = require("morgan");
-const config = require("./config.json");
+const jwt = require("jsonwebtoken");
 
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
+const profile = require("./controllers/profile");
 
 const db = knex({
   client: "pg",
@@ -27,10 +28,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/signin", (req, res) => {
-  signin.handleSignin(req, res, db, bcrypt);
+  signin.handleAuth(req, res, db, bcrypt, jwt);
 });
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
+});
+app.get("/profile/:id", (req, res) => {
+  profile.handleProfileGet(req, res, db);
 });
 
 app.listen(port, () => {
