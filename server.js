@@ -10,6 +10,7 @@ const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const board = require("./controllers/board");
+const list = require("./controllers/list");
 const auth = require("./middlewares/authorization");
 
 const db = knex({
@@ -38,11 +39,20 @@ app.post("/register", (req, res) => {
 app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
-app.get("/boardlist/", auth.requireAuth, (req, res) => {
+app.get("/boardlist", auth.requireAuth, (req, res) => {
   board.handleBoardListGet(req, res, db);
 });
-app.post("/createboard/", auth.requireAuth, (req, res) => {
+app.post("/createboard", auth.requireAuth, (req, res) => {
   board.handleCreateBoard(req, res, db);
+});
+app.post("/createlist", auth.requireAuth, (req, res) => {
+  list.handleCreateList(req, res, db);
+});
+app.post("/getlists", auth.requireAuth, (req, res) => {
+  list.handleListsGet(req, res, db);
+});
+app.post("/createcard", auth.requireAuth, (req, res) => {
+  console.log("creating card");
 });
 
 app.listen(port, () => {
