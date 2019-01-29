@@ -52,7 +52,7 @@ const createSessions = (user, jwt) => {
   // JWT token, return user data
   const { email, id } = user;
   const token = signToken(email, jwt);
-  return setToken(token, id, redisClient)
+  return setToken(token, id)
     .then(() => {
       return { success: "true", userId: id, token: token };
     })

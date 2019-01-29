@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
+const boardList = require("./controllers/boardList");
 const auth = require("./middlewares/authorization");
 
 const db = knex({
@@ -37,8 +38,9 @@ app.post("/register", (req, res) => {
 app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
-app.get("/boardlist/:id", auth.requireAuth, (req, res) => {
+app.get("/boardlist/", auth.requireAuth, (req, res) => {
   console.log("getting boardlist");
+  boardList.handleBoardListGet(req, res, db);
 });
 
 app.listen(port, () => {
