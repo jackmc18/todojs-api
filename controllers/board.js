@@ -18,19 +18,59 @@ const handleBoardListGet = (req, res, db) => {
 const handleBoardGet = (req, res, db) => {
   const userId = req.userId;
   const { boardId } = req.body;
-  if (userId) {
-    db.select("*")
-      .from("lists")
-      .where({ board_id: boardId })
-      .then(lists => {
-        if (lists.length) {
-          res.json(lists);
-        } else {
-          res.status(400).json("Not found");
+  const board = {
+    boardId: boardId,
+    boardName: "",
+    lists: []
+  };
+
+  return handleListsGet(req, res, db).then(lists => {
+    lists.map(list => {
+      var tempCards = [];
+      handleCardsGet(req, res, db, list).then(cards => {
+        console.log("returned cards:", cards);
+        tempCards = cards;
+      });
+      console.log("temp cards:", tempCards);
+      board.lists = [
+        ...board.lists,
+        {
+          listId: list.list_id,
+          listName: list.list_name,
+          cards: []
         }
-      })
-      .catch(err => res.status(400).json("error getting board"));
-  }
+      ];
+    });
+    console.log(board);
+    res.json(board);
+  });
+};
+
+const handleListsGet = (req, res, db) => {
+  const { boardId } = req.body;
+  return db
+    .select("*")
+    .from("lists")
+    .where({ board_id: boardId })
+    .then(lists => {
+      if (lists.length) {
+        return lists;
+      } else {
+        res.status(400).json("Not found");
+      }
+    })
+    .catch(err => res.status(400).json("error getting list"));
+};
+
+const handleCardsGet = (req, res, db, list) => {
+  console.log("getting cards");
+  return db
+    .select("*")
+    .from("cards")
+    .where({ list_id: list.list_id })
+    .then(cards => {
+      return cards;
+    });
 };
 
 const handleCreateBoard = (req, res, db) => {
