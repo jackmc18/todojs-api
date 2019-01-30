@@ -1,21 +1,3 @@
-const handleListsGet = (req, res, db) => {
-  const userId = req.userId;
-  const { boardId } = req.body;
-  if (userId) {
-    db.select("*")
-      .from("lists")
-      .where({ board_id: boardId })
-      .then(lists => {
-        if (lists.length) {
-          res.json(lists);
-        } else {
-          res.status(400).json("Not found");
-        }
-      })
-      .catch(err => res.status(400).json("error getting lists"));
-  }
-};
-
 const handleCreateList = (req, res, db) => {
   const userId = req.userId;
   const { listName, boardId } = req.body;
@@ -36,6 +18,5 @@ const handleCreateList = (req, res, db) => {
 };
 
 module.exports = {
-  handleListsGet: handleListsGet,
   handleCreateList: handleCreateList
 };

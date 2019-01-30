@@ -11,7 +11,25 @@ const handleBoardListGet = (req, res, db) => {
           res.status(400).json("Not found");
         }
       })
-      .catch(err => res.status(400).json("error getting user"));
+      .catch(err => res.status(400).json("error getting board list"));
+  }
+};
+
+const handleBoardGet = (req, res, db) => {
+  const userId = req.userId;
+  const { boardId } = req.body;
+  if (userId) {
+    db.select("*")
+      .from("lists")
+      .where({ board_id: boardId })
+      .then(lists => {
+        if (lists.length) {
+          res.json(lists);
+        } else {
+          res.status(400).json("Not found");
+        }
+      })
+      .catch(err => res.status(400).json("error getting board"));
   }
 };
 
@@ -36,5 +54,6 @@ const handleCreateBoard = (req, res, db) => {
 
 module.exports = {
   handleBoardListGet: handleBoardListGet,
+  handleBoardGet: handleBoardGet,
   handleCreateBoard: handleCreateBoard
 };

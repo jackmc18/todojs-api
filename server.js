@@ -48,8 +48,8 @@ app.post("/createboard", auth.requireAuth, (req, res) => {
 app.post("/createlist", auth.requireAuth, (req, res) => {
   list.handleCreateList(req, res, db);
 });
-app.post("/getlists", auth.requireAuth, (req, res) => {
-  list.handleListsGet(req, res, db);
+app.post("/getboard", auth.requireAuth, (req, res) => {
+  board.handleBoardGet(req, res, db);
 });
 app.post("/createcard", auth.requireAuth, (req, res) => {
   console.log("creating card");
