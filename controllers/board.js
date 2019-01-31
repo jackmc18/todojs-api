@@ -59,7 +59,7 @@ const handleListsGet = (req, res, db) => {
       if (lists.length) {
         return lists;
       } else {
-        return Promise.reject("Lists not found");
+        return [];
       }
     })
     .catch(err => Promise.reject(err));
@@ -106,7 +106,10 @@ const handleCreateBoard = (req, res, db) => {
           created: new Date()
         })
         .into("boards")
-        .returning("board_name")
+        .returning("board_id")
+        .then(board_id => {
+          res.json(board_id);
+        })
         .then(trx.commit)
         .catch(trx.rollback);
     }).catch(err => res.status(400).json("Unable to create board."));
