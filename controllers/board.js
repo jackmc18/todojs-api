@@ -27,12 +27,6 @@ const handleBoardGet = (req, res, db) => {
   return handleListsGet(req, res, db)
     .then(lists => {
       lists.map(list => {
-        // var tempCards = [];
-        // handleCardsGet(req, res, db, list).then(cards => {
-        //   console.log("returned cards:", cards);
-        //   tempCards = cards;
-        // });
-        // console.log("temp cards:", tempCards);
         board.lists = [
           ...board.lists,
           {
