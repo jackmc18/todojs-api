@@ -38,9 +38,8 @@ const handleBoardGet = (req, res, db) => {
       });
       return handleCardsGet(req, res, db, board);
     })
-    .then(resp => {
-      console.log("board:", resp);
-      res.json(resp);
+    .then(board => {
+      res.json(board);
     });
 };
 
@@ -52,7 +51,6 @@ const handleListsGet = (req, res, db) => {
     .where({ board_id: boardId })
     .then(lists => {
       if (lists.length) {
-        console.log("lists:", lists);
         return lists;
       } else {
         res.status(400).json("Not found");
@@ -62,7 +60,6 @@ const handleListsGet = (req, res, db) => {
 };
 
 const handleCardsGet = (req, res, db, board) => {
-  console.log("getting cards");
   let listIds = [];
   board.lists.map(list => {
     listIds = [...listIds, list.listId];
@@ -72,7 +69,6 @@ const handleCardsGet = (req, res, db, board) => {
     .from("cards")
     .whereIn("list_id", listIds)
     .then(cards => {
-      console.log("cards:", cards);
       cards.map(card => {
         board.lists.map(list => {
           if (list.listId === card.list_id) {
