@@ -26,21 +26,27 @@ const handleBoardGet = (req, res, db) => {
 
   return handleListsGet(req, res, db)
     .then(lists => {
-      lists.map(list => {
-        board.lists = [
-          ...board.lists,
-          {
-            listId: list.list_id,
-            listName: list.list_name,
-            cards: []
-          }
-        ];
-      });
-      return handleCardsGet(req, res, db, board);
+      if (!lists) {
+        console.log("no lists");
+        return Promise.reject("no lists");
+      } else {
+        lists.map(list => {
+          board.lists = [
+            ...board.lists,
+            {
+              listId: list.list_id,
+              listName: list.list_name,
+              cards: []
+            }
+          ];
+        });
+        return handleCardsGet(req, res, db, board);
+      }
     })
     .then(board => {
       res.json(board);
-    });
+    })
+    .catch(err => Promise.reject(err));
 };
 
 const handleListsGet = (req, res, db) => {
@@ -53,10 +59,10 @@ const handleListsGet = (req, res, db) => {
       if (lists.length) {
         return lists;
       } else {
-        res.status(400).json("Not found");
+        return Promise.reject("Lists not found");
       }
     })
-    .catch(err => res.status(400).json("error getting list"));
+    .catch(err => Promise.reject(err));
 };
 
 const handleCardsGet = (req, res, db, board) => {
