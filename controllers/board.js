@@ -76,7 +76,15 @@ const handleCardsGet = (req, res, db, board) => {
       cards.map(card => {
         board.lists.map(list => {
           if (list.listId === card.list_id) {
-            list.cards = [...list.cards, card];
+            list.cards = [
+              ...list.cards,
+              {
+                cardId: card.card_id,
+                listId: card.list_id,
+                cardContent: card.card_content,
+                created: card.created
+              }
+            ];
           }
         });
       });
