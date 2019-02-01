@@ -23,15 +23,32 @@ const handleBoardGet = (req, res, db) => {
     boardName: "",
     lists: []
   };
-
-  return handleListsGet(req, res, db, board)
+  return handleBoardInfoGet(req, res, db, board)
+    .then(board => {
+      return handleListsGet(req, res, db, board);
+    })
     .then(board => {
       return handleCardsGet(req, res, db, board);
     })
     .then(board => {
+      //console.log(board);
       res.json(board);
     })
     .catch(err => Promise.reject(err));
+};
+
+const handleBoardInfoGet = (req, res, db, board) => {
+  const { boardId } = req.body;
+  return db
+    .select("*")
+    .from("boards")
+    .where({ board_id: boardId })
+    .then(boardInfo => {
+      console.log("boardInfo", boardInfo);
+      board.boardName = boardInfo[0].board_name;
+      console.log("passed board", board);
+      return board;
+    });
 };
 
 const handleListsGet = (req, res, db, board) => {
@@ -52,10 +69,8 @@ const handleListsGet = (req, res, db, board) => {
             }
           ];
         });
-        return board;
-      } else {
-        return [];
       }
+      return board;
     })
     .catch(err => Promise.reject(err));
 };
