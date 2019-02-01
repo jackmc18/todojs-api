@@ -10,9 +10,11 @@ const handleCreateList = (req, res, db) => {
           created: new Date()
         })
         .into("lists")
-        .returning("list_id")
+        .returning(["list_id", "list_name"])
+        .then(listInfo => {
+          res.json(listInfo[0]);
+        })
         .then(trx.commit)
-        .then(res.json("hello"))
         .catch(trx.rollback);
     }).catch(err => res.status(400).json("Unable to create list."));
   }
