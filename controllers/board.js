@@ -24,12 +24,24 @@ const handleBoardGet = (req, res, db) => {
     lists: []
   };
 
-  return handleListsGet(req, res, db)
+  return handleListsGet(req, res, db, board)
+    .then(board => {
+      return handleCardsGet(req, res, db, board);
+    })
+    .then(board => {
+      res.json(board);
+    })
+    .catch(err => Promise.reject(err));
+};
+
+const handleListsGet = (req, res, db, board) => {
+  const { boardId } = req.body;
+  return db
+    .select("*")
+    .from("lists")
+    .where({ board_id: boardId })
     .then(lists => {
-      if (!lists) {
-        console.log("no lists");
-        return Promise.reject("no lists");
-      } else {
+      if (lists.length) {
         lists.map(list => {
           board.lists = [
             ...board.lists,
@@ -40,24 +52,7 @@ const handleBoardGet = (req, res, db) => {
             }
           ];
         });
-        return handleCardsGet(req, res, db, board);
-      }
-    })
-    .then(board => {
-      res.json(board);
-    })
-    .catch(err => Promise.reject(err));
-};
-
-const handleListsGet = (req, res, db) => {
-  const { boardId } = req.body;
-  return db
-    .select("*")
-    .from("lists")
-    .where({ board_id: boardId })
-    .then(lists => {
-      if (lists.length) {
-        return lists;
+        return board;
       } else {
         return [];
       }
