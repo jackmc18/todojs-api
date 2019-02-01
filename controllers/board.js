@@ -44,9 +44,7 @@ const handleBoardInfoGet = (req, res, db, board) => {
     .from("boards")
     .where({ board_id: boardId })
     .then(boardInfo => {
-      console.log("boardInfo", boardInfo);
       board.boardName = boardInfo[0].board_name;
-      console.log("passed board", board);
       return board;
     });
 };
