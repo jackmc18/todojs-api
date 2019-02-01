@@ -22,7 +22,7 @@ const handleSignin = (req, res, db, bcrypt) => {
           .then(user => user[0])
           .catch(err => Promise.reject("unable to get user"));
       } else {
-        Promise.reject("wrong credentials");
+        return Promise.reject("wrong credentials");
       }
     })
     .catch(err => Promise.reject("wrong credentials"));
