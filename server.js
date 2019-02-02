@@ -11,6 +11,7 @@ const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const board = require("./controllers/board");
 const list = require("./controllers/list");
+const card = require("./controllers/card");
 const auth = require("./middlewares/authorization");
 
 const db = knex({
@@ -52,7 +53,7 @@ app.post("/getboard", auth.requireAuth, (req, res) => {
   board.handleBoardGet(req, res, db);
 });
 app.post("/createcard", auth.requireAuth, (req, res) => {
-  console.log("creating card");
+  card.handleCreateCard(req, res, db);
 });
 
 app.listen(port, () => {
