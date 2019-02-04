@@ -22,7 +22,18 @@ const handleCreateCard = (req, res, db) => {
 
 const handleDeleteCard = (req, res, db) => {
   const userId = req.userId;
-  console.log("handleDeleteCard");
+  const { cardId } = req.body;
+  if (userId) {
+    console.log("handling delete card for card:", cardId);
+    db.transaction(trx => {
+      trx
+        .del()
+        .from("cards")
+        .where("card_id", "=", cardId)
+        .then(trx.commit)
+        .catch(trx.rollback);
+    }).then();
+  }
 };
 
 module.exports = {
