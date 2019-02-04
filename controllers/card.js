@@ -20,6 +20,12 @@ const handleCreateCard = (req, res, db) => {
   }
 };
 
+const handleDeleteCard = (req, res, db) => {
+  const userId = req.userId;
+  console.log("handleDeleteCard");
+};
+
 module.exports = {
-  handleCreateCard: handleCreateCard
+  handleCreateCard: handleCreateCard,
+  handleDeleteCard: handleDeleteCard
 };
