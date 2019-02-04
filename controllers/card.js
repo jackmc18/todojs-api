@@ -30,6 +30,7 @@ const handleDeleteCard = (req, res, db) => {
         .del()
         .from("cards")
         .where("card_id", "=", cardId)
+        .then(res.status(200).json())
         .then(trx.commit)
         .catch(trx.rollback);
     }).then();
