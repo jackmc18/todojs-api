@@ -92,6 +92,7 @@ const handleCardsGet = (req, res, db, board) => {
                 cardId: card.card_id,
                 listId: card.list_id,
                 cardContent: card.card_content,
+                cardPosition: card.card_position,
                 created: card.created
               }
             ];
