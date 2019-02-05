@@ -7,6 +7,6 @@ INSERT into boards (owner_id, board_name, created) values ('1', 'Example', '2018
 INSERT into lists (board_id, list_name, created) values ('1', 'Todo', '2018-01-01');
 INSERT into lists (board_id, list_name, created) values ('1', 'Doing', '2018-01-01');
 INSERT into lists (board_id, list_name, created) values ('1', 'Done', '2018-01-01');
-INSERT into cards (list_id, card_content, card_position, created) values ('1', 'Example card', '1', '2018-01-01');
+INSERT into cards (list_id, card_content, card_position, created) values ('1', 'Example card', '0', '2018-01-01');
 
 COMMIT;
