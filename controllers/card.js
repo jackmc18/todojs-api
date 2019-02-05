@@ -1,12 +1,13 @@
 const handleCreateCard = (req, res, db) => {
   const userId = req.userId;
-  const { cardContent, listId } = req.body;
+  const { cardContent, listId, cardPosition } = req.body;
   if (userId) {
     db.transaction(trx => {
       trx
         .insert({
           list_id: listId,
           card_content: cardContent,
+          card_position: cardPosition,
           created: new Date()
         })
         .into("cards")
