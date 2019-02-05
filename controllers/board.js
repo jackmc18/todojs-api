@@ -63,6 +63,7 @@ const handleListsGet = (req, res, db, board) => {
             {
               listId: list.list_id,
               listName: list.list_name,
+              listPosition: list.list_position,
               cards: []
             }
           ];

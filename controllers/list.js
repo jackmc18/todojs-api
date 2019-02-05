@@ -1,12 +1,13 @@
 const handleCreateList = (req, res, db) => {
   const userId = req.userId;
-  const { listName, boardId } = req.body;
+  const { listName, listPosition, boardId } = req.body;
   if (userId) {
     db.transaction(trx => {
       trx
         .insert({
           board_id: boardId,
           list_name: listName,
+          list_position: listPosition,
           created: new Date()
         })
         .into("lists")
