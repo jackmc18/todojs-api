@@ -49,6 +49,9 @@ app.post("/createboard", auth.requireAuth, (req, res) => {
 app.post("/createlist", auth.requireAuth, (req, res) => {
   list.handleCreateList(req, res, db);
 });
+app.post("/deletelist", auth.requireAuth, (req, res) => {
+  list.handleDeleteList(req, res, db);
+});
 app.post("/getboard", auth.requireAuth, (req, res) => {
   board.handleBoardGet(req, res, db);
 });

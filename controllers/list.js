@@ -21,6 +21,13 @@ const handleCreateList = (req, res, db) => {
   }
 };
 
+const handleDeleteList = (req, res, db) => {
+  const userId = req.userId;
+  console.log("deleting list");
+  res.json("test");
+};
+
 module.exports = {
-  handleCreateList: handleCreateList
+  handleCreateList: handleCreateList,
+  handleDeleteList: handleDeleteList
 };
