@@ -34,7 +34,7 @@ const handleDeleteCard = (req, res, db) => {
         .then(res.status(200).json())
         .then(trx.commit)
         .catch(trx.rollback);
-    }).then();
+    });
   }
 };
 
