@@ -25,13 +25,15 @@ const handleDeleteCard = (req, res, db) => {
   const userId = req.userId;
   const { cardId } = req.body;
   if (userId) {
-    console.log("handling delete card for card:", cardId);
     db.transaction(trx => {
       trx
         .del()
         .from("cards")
         .where("card_id", "=", cardId)
-        .then(res.status(200).json())
+        .returning("*")
+        .then(deletedCard => {
+          res.json(deletedCard[0]);
+        })
         .then(trx.commit)
         .catch(trx.rollback);
     });
