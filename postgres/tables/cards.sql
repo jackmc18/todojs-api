@@ -6,7 +6,7 @@ CREATE TABLE cards (
     card_content VARCHAR(1024),
     card_position int NOT NULL,
     created TIMESTAMP NOT NULL,
-    FOREIGN KEY (list_id) REFERENCES lists(list_id)
+    FOREIGN KEY (list_id) REFERENCES lists(list_id) ON DELETE CASCADE
 );
 
 COMMIT;
