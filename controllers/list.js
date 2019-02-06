@@ -23,8 +23,18 @@ const handleCreateList = (req, res, db) => {
 
 const handleDeleteList = (req, res, db) => {
   const userId = req.userId;
-  console.log("deleting list");
-  res.json("test");
+  const { listId } = req.body;
+  if (userId) {
+    db.transaction(trx => {
+      trx
+        .del()
+        .from("lists")
+        .where("list_id", "=", listId)
+        .then(res.status(200).json())
+        .then(trx.commit)
+        .catch(trx.rollback);
+    });
+  }
 };
 
 module.exports = {
