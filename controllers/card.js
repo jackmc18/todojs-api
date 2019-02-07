@@ -32,6 +32,13 @@ const handleDeleteCard = (req, res, db) => {
         .where("card_id", "=", cardId)
         .returning("*")
         .then(deletedCard => {
+          console.log(deletedCard);
+          //const deletedPosition = deletedCard[0].card_position;
+          db("cards")
+            .where("list_id", "=", deletedCard[0].list_id)
+            .andWhere("card_position", ">", deletedCard[0].card_position)
+            .decrement({ card_position: 1 })
+            .then(console.log);
           res.json(deletedCard[0]);
         })
         .then(trx.commit)
