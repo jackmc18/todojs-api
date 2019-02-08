@@ -45,7 +45,8 @@ const handleDecrementCards = (db, deletedCard) => {
   db("cards")
     .where("list_id", "=", deletedCard[0].list_id)
     .andWhere("card_position", ">", deletedCard[0].card_position)
-    .decrement({ card_position: 1 });
+    .decrement("card_position", 1)
+    .catch(err => res.status(400));
 };
 
 module.exports = {
