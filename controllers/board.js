@@ -55,6 +55,7 @@ const handleListsGet = (req, res, db, board) => {
     .select("*")
     .from("lists")
     .where({ board_id: boardId })
+    .orderBy("list_position")
     .then(lists => {
       if (lists.length) {
         lists.map(list => {
@@ -83,6 +84,7 @@ const handleCardsGet = (req, res, db, board) => {
     .select("*")
     .from("cards")
     .whereIn("list_id", listIds)
+    .orderBy("card_position")
     .then(cards => {
       cards.map(card => {
         board.lists.map(list => {
