@@ -8,7 +8,7 @@ const handleBoardListGet = (req, res, db) => {
         if (boards.length) {
           res.json(boards);
         } else {
-          res.status(400).json("Not found");
+          res.json([]);
         }
       })
       .catch(err => res.status(400).json("error getting board list"));
