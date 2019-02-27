@@ -43,6 +43,21 @@ const handleDeleteCard = (req, res, db) => {
   }
 };
 
+const handleEditCardContent = (req, res, db) => {
+  const userId = req.userId;
+  const { cardId, cardContent } = req.body;
+  if (userId) {
+    db.from("cards")
+      .where({ card_id: cardId })
+      .update({ card_content: cardContent })
+      .returning("*")
+      .then(updatedCard => {
+        res.status(200).json(updatedCard[0]);
+      })
+      .catch(err => res.status(400).json("Unable to edit card."));
+  }
+};
+
 const handleDecrementCards = (db, deletedCard) => {
   return db("cards")
     .where("list_id", "=", deletedCard[0].list_id)
@@ -56,5 +71,6 @@ const handleDecrementCards = (db, deletedCard) => {
 
 module.exports = {
   handleCreateCard: handleCreateCard,
-  handleDeleteCard: handleDeleteCard
+  handleDeleteCard: handleDeleteCard,
+  handleEditCardContent: handleEditCardContent
 };
