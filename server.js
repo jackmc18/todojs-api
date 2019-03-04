@@ -7,7 +7,7 @@ const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
 
 const register = require("./controllers/register");
-const signin = require("./controllers/signin");
+const login = require("./controllers/login");
 const profile = require("./controllers/profile");
 const board = require("./controllers/board");
 const list = require("./controllers/list");
@@ -31,8 +31,8 @@ app.get("/", (req, res) => {
   res.send("this is working");
 });
 
-app.post("/signin", (req, res) => {
-  signin.handleAuth(req, res, db, bcrypt, jwt);
+app.post("/login", (req, res) => {
+  login.handleAuth(req, res, db, bcrypt, jwt);
 });
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);

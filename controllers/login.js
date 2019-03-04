@@ -3,7 +3,7 @@ const redis = require("redis");
 // Setup Redis
 const redisClient = redis.createClient(process.env.REDIS_URI);
 
-const handleSignin = (req, res, db, bcrypt) => {
+const handleLogin = (req, res, db, bcrypt) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return Promise.reject("incorrect form submission");
@@ -63,7 +63,7 @@ const handleAuth = (req, res, db, bcrypt, jwt) => {
   const { authorization } = req.headers;
   return authorization
     ? getAuthTokenId(req, res)
-    : handleSignin(req, res, db, bcrypt)
+    : handleLogin(req, res, db, bcrypt)
         .then(data => {
           return data.id && data.email
             ? createSessions(data, jwt)
