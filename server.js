@@ -40,28 +40,28 @@ app.post("/register", (req, res) => {
 app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
-app.get("/boardlist", auth.requireAuth, (req, res) => {
+app.get("/board-list", auth.requireAuth, (req, res) => {
   board.handleBoardListGet(req, res, db);
 });
-app.post("/createboard", auth.requireAuth, (req, res) => {
+app.post("/create-board", auth.requireAuth, (req, res) => {
   board.handleCreateBoard(req, res, db);
 });
-app.post("/createlist", auth.requireAuth, (req, res) => {
+app.post("/create-list", auth.requireAuth, (req, res) => {
   list.handleCreateList(req, res, db);
 });
-app.post("/deletelist", auth.requireAuth, (req, res) => {
+app.post("/delete-list", auth.requireAuth, (req, res) => {
   list.handleDeleteList(req, res, db);
 });
-app.post("/getboard", auth.requireAuth, (req, res) => {
+app.post("/get-board", auth.requireAuth, (req, res) => {
   board.handleBoardGet(req, res, db);
 });
-app.post("/createcard", auth.requireAuth, (req, res) => {
+app.post("/create-card", auth.requireAuth, (req, res) => {
   card.handleCreateCard(req, res, db);
 });
-app.post("/deletecard", auth.requireAuth, (req, res) => {
+app.post("/delete-card", auth.requireAuth, (req, res) => {
   card.handleDeleteCard(req, res, db);
 });
-app.post("/editcardcontent", auth.requireAuth, (req, res) => {
+app.post("/edit-card-content", auth.requireAuth, (req, res) => {
   card.handleEditCardContent(req, res, db);
 });
 
