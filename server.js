@@ -64,6 +64,9 @@ app.post("/delete-card", auth.requireAuth, (req, res) => {
 app.post("/edit-card-content", auth.requireAuth, (req, res) => {
   card.handleEditCardContent(req, res, db);
 });
+app.post("/move-card", auth.requireAuth, (req, res) => {
+  card.handleMoveCard(req, res, db);
+});
 
 app.listen(port, () => {
   console.log(`running on port ${port}`);

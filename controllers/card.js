@@ -58,10 +58,44 @@ const handleEditCardContent = (req, res, db) => {
   }
 };
 
+const handleMoveCard = (req, res, db) => {
+  const userId = req.userId;
+  const {
+    cardId,
+    oldCardList,
+    newCardList,
+    oldCardPosition,
+    newCardPosition
+  } = req.body;
+  if (userId) {
+    db.from("cards")
+      .where({ list_id: oldCardList })
+      .andWhere("card_position", ">", oldCardPosition)
+      .decrement("card_position", 1)
+      .then(() => {
+        return db
+          .from("cards")
+          .where("card_position", ">=", newCardPosition)
+          .increment("card_position", 1);
+      })
+      .then(() => {
+        return db
+          .from("cards")
+          .where({ card_id: cardId })
+          .update({ card_position: newCardPosition })
+          .returning("*");
+      })
+      .then(card => {
+        res.json(card[0]);
+      });
+  }
+};
+
 const handleDecrementCards = (db, deletedCard) => {
   return db("cards")
     .where("list_id", "=", deletedCard[0].list_id)
     .andWhere("card_position", ">", deletedCard[0].card_position)
+    .andWhere("card_id", "!=", deletedCard[0].card_id)
     .decrement("card_position", 1)
     .then(res => {
       return deletedCard;
@@ -72,5 +106,6 @@ const handleDecrementCards = (db, deletedCard) => {
 module.exports = {
   handleCreateCard: handleCreateCard,
   handleDeleteCard: handleDeleteCard,
-  handleEditCardContent: handleEditCardContent
+  handleEditCardContent: handleEditCardContent,
+  handleMoveCard: handleMoveCard
 };
