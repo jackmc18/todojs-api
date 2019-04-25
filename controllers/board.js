@@ -128,8 +128,13 @@ const handleCreateBoard = (req, res, db) => {
   }
 };
 
+const handleDeleteBoard = (req, res, db) => {
+  console.log("deleting board");
+};
+
 module.exports = {
   handleBoardListGet: handleBoardListGet,
   handleBoardGet: handleBoardGet,
-  handleCreateBoard: handleCreateBoard
+  handleCreateBoard: handleCreateBoard,
+  handleDeleteBoard: handleDeleteBoard
 };
