@@ -129,7 +129,6 @@ const handleCreateBoard = (req, res, db) => {
 };
 
 const handleDeleteBoard = (req, res, db) => {
-  console.log("deleting board");
   const { boardId } = req.body;
   db.transaction(trx => {
     trx
