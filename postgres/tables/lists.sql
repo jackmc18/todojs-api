@@ -6,7 +6,7 @@ CREATE TABLE lists (
     list_name VARCHAR(256),
     list_position int NOT NULL,
     created TIMESTAMP NOT NULL,
-    FOREIGN KEY (board_id) REFERENCES boards(board_id)
+    FOREIGN KEY (board_id) REFERENCES boards(board_id) ON DELETE CASCADE
 );
 
 COMMIT;
