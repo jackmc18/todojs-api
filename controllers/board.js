@@ -31,10 +31,11 @@ const handleBoardGet = (req, res, db) => {
       return handleCardsGet(req, res, db, board);
     })
     .then(board => {
-      //console.log(board);
       res.json(board);
     })
-    .catch(err => Promise.reject(err));
+    .catch(err => {
+      res.status(404).json("couldn't find board");
+    });
 };
 
 const handleBoardInfoGet = (req, res, db, board) => {
@@ -44,8 +45,15 @@ const handleBoardInfoGet = (req, res, db, board) => {
     .from("boards")
     .where({ board_id: boardId })
     .then(boardInfo => {
-      board.boardName = boardInfo[0].board_name;
-      return board;
+      if (boardInfo.length) {
+        board.boardName = boardInfo[0].board_name;
+        return board;
+      } else {
+        throw "error finding board infomation";
+      }
+    })
+    .catch(() => {
+      Promise.reject(err);
     });
 };
 
@@ -128,8 +136,22 @@ const handleCreateBoard = (req, res, db) => {
   }
 };
 
+const handleDeleteBoard = (req, res, db) => {
+  const { boardId } = req.body;
+  db.transaction(trx => {
+    trx
+      .del()
+      .from("boards")
+      .where("board_id", "=", boardId)
+      .then(res.status(200).json())
+      .then(trx.commit)
+      .catch(trx.rollback);
+  });
+};
+
 module.exports = {
   handleBoardListGet: handleBoardListGet,
   handleBoardGet: handleBoardGet,
-  handleCreateBoard: handleCreateBoard
+  handleCreateBoard: handleCreateBoard,
+  handleDeleteBoard: handleDeleteBoard
 };

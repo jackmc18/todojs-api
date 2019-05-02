@@ -40,21 +40,27 @@ app.post("/register", (req, res) => {
 app.get("/profile/:id", auth.requireAuth, (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
+
 app.get("/board-list", auth.requireAuth, (req, res) => {
   board.handleBoardListGet(req, res, db);
 });
 app.post("/create-board", auth.requireAuth, (req, res) => {
   board.handleCreateBoard(req, res, db);
 });
+app.post("/delete-board", (req, res) => {
+  board.handleDeleteBoard(req, res, db);
+});
+app.post("/get-board", auth.requireAuth, (req, res) => {
+  board.handleBoardGet(req, res, db);
+});
+
 app.post("/create-list", auth.requireAuth, (req, res) => {
   list.handleCreateList(req, res, db);
 });
 app.post("/delete-list", auth.requireAuth, (req, res) => {
   list.handleDeleteList(req, res, db);
 });
-app.post("/get-board", auth.requireAuth, (req, res) => {
-  board.handleBoardGet(req, res, db);
-});
+
 app.post("/create-card", auth.requireAuth, (req, res) => {
   card.handleCreateCard(req, res, db);
 });

@@ -75,6 +75,7 @@ const handleMoveCard = (req, res, db) => {
       .then(() => {
         return db
           .from("cards")
+          .where({ list_id: newCardList })
           .where("card_position", ">=", newCardPosition)
           .increment("card_position", 1);
       })
@@ -82,7 +83,7 @@ const handleMoveCard = (req, res, db) => {
         return db
           .from("cards")
           .where({ card_id: cardId })
-          .update({ card_position: newCardPosition })
+          .update({ card_position: newCardPosition, list_id: newCardList })
           .returning("*");
       })
       .then(card => {
